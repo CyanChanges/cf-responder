@@ -1,0 +1,19 @@
+{
+  "name": "@cyancy/cf-responder",
+  "version": "0.2.1",
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "dependencies": {
+    "cosmokit": "^1.5.2",
+    "itty-router": "^4.0.25"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "typescript": "^5.3.3",
+    "wrangler": "3.22.1"
+  }
+}
