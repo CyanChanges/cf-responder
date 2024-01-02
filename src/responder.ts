@@ -18,6 +18,10 @@ function empty() {
   return {}
 }
 
+function dupe(obj: object) {
+  return Object.assign({}, obj)
+}
+
 function nl() {
   return Object.create(null)
 }
@@ -95,10 +99,11 @@ export abstract class Responder {
       headerOptions['x-message'] = obj?.message
     }
     const [body, contentType] = this.parse(obj)
+    if (contentType) headerOptions['content-type'] = contentType
+    const headers = Object.assign(dupe(headerOptions), dupe(headerUpdate)) as HeadersInit
+
     return new this.resp(body, {
-      status, headers: Object.assign(Object.assign(headerOptions, contentType ? {
-        'content-type': contentType
-      } : {}), headerUpdate)
+      status, headers
     })
   }
 
