@@ -22,9 +22,9 @@ function dupe(obj: object) {
   return Object.assign({}, obj)
 }
 
-function nl() {
-  return Object.create(null)
-}
+// function nl() {
+//   return Object.create(null)
+// }
 
 export abstract class Responder {
   get defaultHeaders(): any {
@@ -129,11 +129,13 @@ export abstract class Responder {
   async forward(target: URL | string | Request, init?: RequestInit) {
     const res = await fetch(target, init)
 
+    console.debug('forward to', target)
+
     return this.respond({
       code: res.status,
       message: res.statusText,
       data: res.body,
-    }, res.headers)
+    }, Object.fromEntries(res.headers.entries()))
   }
 
   async cachedForward(context: ExecutionContext, request: Request, target: URL | string | Request, init?: RequestInit) {
@@ -145,6 +147,9 @@ export abstract class Responder {
   redirect(location: string, code: 301 | 302 = 302) {
     const headers = this.defaultHeaders
     headers['location'] = location
+
+    console.debug('redirect to', location)
+
     return new this.resp(null, {
       status: code, headers
     })
