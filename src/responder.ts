@@ -78,6 +78,16 @@ export abstract class Responder {
     })
   }
 
+  respondWith(data: any, code: number = 200, contentType: string = 'text/plain') {
+    return this.respond({
+      code,
+      message: code == 200 ? 'success' : 'error',
+      data: data ?? null
+    }, {
+      'content-type': contentType
+    })
+  }
+
   abstract parse(obj: BaseResponse | null | object): [BodyInit | null, string?]
 
   respond(status: number, obj: BaseResponse, headers?: any): cfResponse
